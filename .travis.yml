@@ -3,7 +3,7 @@ mono: none
 dotnet: 2.1.104
 solution: BitStringLibrary/BitStringLibrary.sln
 script:
- - cd BitStringLibrary
  - dotnet restore
- - dotnet test test/BitString.Test
- - dotnet test test/HexString.Test
+ - dotnet test BitStringLibrary/test/BitString.Test
+ - dotnet test BitStringLibrary/test/HexString.Test
+ - dotnet test WebApi/tests
