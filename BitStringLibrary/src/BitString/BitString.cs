@@ -31,13 +31,15 @@ namespace StringLibrary
             String tmp = bit_string;
 
             while (tmp.Length > 6) {
-                String bits = tmp.Substring(0, 6);
-                ret += base64[convertBitsToInt(bits)];
-                tmp = tmp.Remove(0, 6);
+                String bits = tmp.Substring(tmp.Length - 6);
+                String b64 = base64[convertBitsToInt(bits)].ToString();
+                ret = b64 + ret; 
+                tmp = tmp.Remove(tmp.Length - 6);
             }
 
             if (tmp.Length > 0) {
-                ret += base64[convertBitsToInt(tmp)];
+                String b64 = base64[convertBitsToInt(tmp)].ToString();
+                ret = b64 + ret; 
             }
 
             return ret;
