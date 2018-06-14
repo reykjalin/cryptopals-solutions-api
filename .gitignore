@@ -1,0 +1,4 @@
+# VSCode ignores
+*.code-workspace
+bin/
+obj/
