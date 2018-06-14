@@ -30,6 +30,10 @@ namespace StringLibrary.Test
         [Theory]
         [InlineData("000", "AA")]
         [InlineData("0c", "AM")]
+        [InlineData("0c1", "DB")]
+        // 00 001100 000100 001100
+        // A  M      E      M
+        [InlineData("0c10c", "AMEM")]
         [InlineData("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d", "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t")]
         public void TestAsBase64(String hex, String base64)
         {

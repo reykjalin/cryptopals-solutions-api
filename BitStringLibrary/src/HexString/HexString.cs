@@ -38,17 +38,17 @@ namespace StringLibrary
 
             // TODO change to work from last character
             while (tmp.Length > 3) {
-                String hex = tmp.Substring(0, 3);
+                String hex = tmp.Substring(tmp.Length - 3);
                 Int32 value = hexToInt(hex);
-                ret += base64[(value >> 6) & 0x3f];
-                ret += base64[value & 0x3f];
-                tmp = tmp.Remove(0, 3);
+                String b64 = base64[(value >> 6) & 0x3f].ToString() + base64[value & 0x3f].ToString();
+                ret = b64 + ret;
+                tmp = tmp.Remove(tmp.Length - 3);
             }
 
             if (tmp.Length > 0) {
                 Int32 value = hexToInt(tmp);
-                ret += base64[(value >> 6) & 0x3f];
-                ret += base64[value & 0x3f];
+                String b64 = base64[(value >> 6) & 0x3f].ToString() + base64[value & 0x3f].ToString();
+                ret = b64 + ret;
             }
 
             return ret;
@@ -58,7 +58,7 @@ namespace StringLibrary
         {
             Int32 ret = 0;
             for (int i = 0; i < hex.Length; i++) {
-                ret += hex_values[hex[i].ToString()] * (hex.Length - i);
+                ret += hex_values[hex[i].ToString()] * (Int32) Math.Pow(16, (hex.Length - 1 - i));
             }
             return ret;
         }
