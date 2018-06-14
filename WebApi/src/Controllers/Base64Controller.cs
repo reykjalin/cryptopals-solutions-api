@@ -18,7 +18,13 @@ namespace WebApi.Controllers
             if (value == null || !ModelState.IsValid) {
                 return BadRequest("empty request");
             }
-            HexString hs = new HexString(value.hex);
+            HexString hs;
+            try {
+                hs = new HexString(value.hex);
+            } catch (InvalidOperationException e) {
+                return BadRequest("invalid hex string");
+            }
+
             if (!hs.isValid()) {
                 return BadRequest("invalid hex string");
             }
@@ -31,10 +37,18 @@ namespace WebApi.Controllers
             if (value == null || !ModelState.IsValid) {
                 return BadRequest("empty request");
             }
-            BitString bs = new BitString(value.binary);
-            if (!bs.isValid()) {
-                return BadRequest("invalid hex string");
+
+            BitString bs;
+            try {
+                bs = new BitString(value.binary);
+            } catch (InvalidOperationException e) {
+                return BadRequest("invalid bit string");
             }
+
+            if (!bs.isValid()) {
+                return BadRequest("invalid bit string");
+            }
+
             return Ok(bs.asBase64());
         }
     }
