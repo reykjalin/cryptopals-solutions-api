@@ -2,6 +2,8 @@ language: csharp
 mono: none
 dotnet: 2.1.104
 solution: BitStringLibrary/BitStringLibrary.sln
+install:
+ - nuget restore BitStringLibrary/BitStringLibrary.sln
 script:
  - cd BitStringLibrary
  - dotnet restore
