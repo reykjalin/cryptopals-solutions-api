@@ -28,8 +28,7 @@ namespace StringLibrary.Test
         [InlineData("0x0101")]
         public void InvalidBitStrings(String value)
         {
-            BitString bs = new BitString(value);
-            Assert.False(bs.isValid(), "Bit string should be invalid");
+            Assert.Throws<InvalidOperationException>(() => { BitString bs = new BitString(value); });
         }
 
         [Theory]

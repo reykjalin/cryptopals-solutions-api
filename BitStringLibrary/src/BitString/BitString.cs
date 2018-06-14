@@ -15,7 +15,14 @@ namespace StringLibrary
         public String bit_string { get; set; }
 
         public BitString() => bit_string = "";
-        public BitString(String bit_str) => bit_string = bit_str;
+        public BitString(String bit_str)
+        {
+            if (!isValidBitString(bit_str)) {
+                throw new InvalidOperationException("Bit string is not valid");
+            }
+
+            bit_string = bit_str;
+        }
 
         public void fromHex(String hex_str) {
             bit_string = "";
