@@ -37,7 +37,11 @@ export default {
           this.$store.commit("update", response.data);
         })
         .catch(e => {
-          this.$store.commit("update", e.response.data);
+          if (typeof e.response !== "undefined") {
+            this.$store.commit("update", e.response.data);
+          } else {
+            this.$store.commit("update", "no response, server error");
+          }
         });
     }
   }
