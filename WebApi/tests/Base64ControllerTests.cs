@@ -10,11 +10,11 @@ namespace WebApi.tests
     public class Base64ControllerTests
     {
         [Theory]
-        [InlineData("01b", "Ab")]
-        [InlineData("000", "AA")]
-        [InlineData("0c", "AM")]
+        [InlineData("01b", "b")]
+        [InlineData("000", "A")]
+        [InlineData("0c", "M")]
         [InlineData("0c1", "DB")]
-        [InlineData("0c10c", "AMEM")]
+        [InlineData("0c10c", "MEM")]
         [InlineData("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d", "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t")]
         public void FromHexPost_ReturnsOkResult(string hex, string base64)
         {
