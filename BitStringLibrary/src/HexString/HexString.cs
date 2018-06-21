@@ -32,25 +32,56 @@ namespace StringLibrary
 
         public String asBase64()
         {
-
             String ret = "";
-            String tmp = hex_string;
+            // Strip leading 0
+            String tmp = stripLeadingZeros(hex_string);
 
-            // TODO change to work from last character
+            // Convert to base64 by iterating from back to front
             while (tmp.Length > 3) {
                 String hex = tmp.Substring(tmp.Length - 3);
                 Int32 value = hexToInt(hex);
-                String b64 = base64[(value >> 6) & 0x3f].ToString() + base64[value & 0x3f].ToString();
+                String b64 = intToBase64(value);
                 ret = b64 + ret;
+
                 tmp = tmp.Remove(tmp.Length - 3);
             }
 
+            // If length is not a multiple of 3, handle the remaining characters
             if (tmp.Length > 0) {
                 Int32 value = hexToInt(tmp);
-                String b64 = base64[(value >> 6) & 0x3f].ToString() + base64[value & 0x3f].ToString();
+                String b64 = intToBase64(value);
                 ret = b64 + ret;
             }
 
+            // Cover zero string, since nothing will have been added to ret
+            if (string.IsNullOrEmpty(ret)) {
+                return base64[0].ToString();
+            }
+
+            return ret;
+        }
+
+        private String stripLeadingZeros(String hex)
+        {
+            int index = 0;
+            while (index < hex.Length && hex[index] == '0') {
+                index++;
+            }
+
+            if (index > 0 && index < hex.Length) {
+                hex = hex.Remove(0, index);
+            }
+            return hex;
+        }
+
+        private String intToBase64(Int32 num)
+        {
+            Int32 upper = (num >> 6) & 0x3f;
+            Int32 lower = num & 0x3f;
+
+            String ret = "";
+            ret = upper == 0 ? "" : base64[upper].ToString();
+            ret = lower == 0 ? ret + "" : ret + base64[lower].ToString();
             return ret;
         }
 
