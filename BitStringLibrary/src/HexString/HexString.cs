@@ -34,23 +34,14 @@ namespace StringLibrary
         {
             String ret = "";
             // Strip leading 0
-            String tmp = stripLeadingZeros(hex_string);
+            String tmp = stripLeadingChar(hex_string, '0');
 
             // Convert to base64 by iterating from back to front
-            while (tmp.Length > 3) {
-                String hex = tmp.Substring(tmp.Length - 3);
-                Int32 value = hexToInt(hex);
-                String b64 = intToBase64(value);
-                ret = b64 + ret;
-
-                tmp = tmp.Remove(tmp.Length - 3);
-            }
-
-            // If length is not a multiple of 3, handle the remaining characters
-            if (tmp.Length > 0) {
-                Int32 value = hexToInt(tmp);
-                String b64 = intToBase64(value);
-                ret = b64 + ret;
+            while (!string.IsNullOrEmpty(tmp)) {
+                String hex = tmp.Length > 3 ? tmp.Substring(tmp.Length - 3) : tmp;
+                // prepend to base64 string since we're going from the back to front
+                ret = intToBase64(hexToInt(hex)) + ret;
+                tmp = tmp.Length > 3 ? tmp.Remove(tmp.Length - 3) : "";
             }
 
             // Cover zero string, since nothing will have been added to ret
@@ -61,15 +52,15 @@ namespace StringLibrary
             return ret;
         }
 
-        private String stripLeadingZeros(String hex)
+        private String stripLeadingChar(String hex, Char c)
         {
             int index = 0;
-            while (index < hex.Length && hex[index] == '0') {
+            while (index < hex.Length && hex[index] == c) {
                 index++;
             }
 
             if (index > 0 && index < hex.Length) {
-                hex = hex.Remove(0, index);
+                return hex.Remove(0, index);
             }
             return hex;
         }
@@ -79,10 +70,11 @@ namespace StringLibrary
             Int32 upper = (num >> 6) & 0x3f;
             Int32 lower = num & 0x3f;
 
-            String ret = "";
-            ret = upper == 0 ? "" : base64[upper].ToString();
-            ret = lower == 0 ? ret + "" : ret + base64[lower].ToString();
-            return ret;
+            // Don't want a leading A
+            if (upper == 0) {
+                return base64[lower].ToString();
+            }
+            return base64[upper].ToString() + base64[lower].ToString();
         }
 
         private Int32 hexToInt(String hex)
