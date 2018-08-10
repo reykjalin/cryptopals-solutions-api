@@ -10,3 +10,13 @@ I'm slowly working through the [cryptopals](http://cryptopals.com) challenges an
 - [x] Solve 1st challenge
 - [ ] Solve 2nd challenge
 - [ ] Create web page to use api
+
+# Technologies involved  
+## API  
+Implemented using .NET Core  
+Unit testing done with xUnit
+
+## Frontend  
+Single-page web app implemented using VueJS.  
+Unit testing done with Jest  
+End-to-end testing done with Nightwatch
