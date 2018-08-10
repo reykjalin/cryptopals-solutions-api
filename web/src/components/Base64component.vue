@@ -1,48 +1,40 @@
+<style>
+.box {
+  width: 90%;
+  margin: 40px auto;
+}
+</style>
+
 <template>
-  <div class="hello">
-    <h1>Hex to base64 converter</h1>
+  <div class="base64">
+    <h1 class="title">Hex to base64 converter</h1>
     <div>
-      <input type="text" v-model="data.hex" id="hex" v-on:keyup="convert" />
-      <br/>
-      <br/>
-      <p>{{ base64 }}</p>
+      <input class="input" type="text" v-model="data.hex" id="hex" v-on:keyup="convert" />
+      <div class="box">
+        <div class="content">
+          <p>{{ base64 }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { HTTP } from "@/main.js";
-
 export default {
   name: "Base64component",
-  props: {
-    hex: String
-  },
   computed: {
     base64() {
-      return this.$store.state.base64;
+      return this.$store.getters.getBase64;
     }
   },
   methods: {
-    data: function() {
+    data() {
       return {
-        hex: this.hex
+        hex: String
       };
     },
     convert: function() {
-      HTTP.post("base64/from/hex/", {
-        hex: this.data.hex
-      })
-        .then(response => {
-          this.$store.commit("update", response.data);
-        })
-        .catch(e => {
-          if (typeof e.response !== "undefined") {
-            this.$store.commit("update", e.response.data);
-          } else {
-            this.$store.commit("update", "no response, server error");
-          }
-        });
+      this.$store.dispatch("hexToBase64", this.data.hex);
     }
   }
 };
